@@ -10,7 +10,11 @@ const reviewSchema = new mongoose.Schema( {
     reviewedBy:{
         type:String,
         required:true,
+<<<<<<< HEAD
         default:'Guest'
+=======
+        default:'Guest' 
+>>>>>>> b57feecdf395b9c696184b1ef1964bd626b6a9b1
     },
     reviewedAt:{
         type:Date,
