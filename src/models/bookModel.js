@@ -46,6 +46,6 @@ const bookSchema = new mongoose.Schema( {
         required:true,
         default: null,
       },
-},{timestamps});
+},{timestamps:true});
 
 module.exports = mongoose.model('Book', bookSchema)
