@@ -7,7 +7,7 @@ const userLogin = async function (req, res) {
     if (!/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(req.body.email)) {
       return res
         .status(400)
-        .send({ status: false, data: "plz enter the valid Email" });
+        .send({ status: false, message: "plz enter the valid Email" });
     }
     let userPassword = req.body.password;
     if (
@@ -15,7 +15,7 @@ const userLogin = async function (req, res) {
     ) {
       return res
         .status(400)
-        .send({ status: false, massege: "Plz enter valid Password" });
+        .send({ status: false, message: "Plz enter valid Password" });
     }
     let isUser = await userModel.findOne({
       email: userEmail,
@@ -24,7 +24,7 @@ const userLogin = async function (req, res) {
     if (!isUser) {
       return res
         .status(404)
-        .send({ status: false, data: "No such author exists" });
+        .send({ status: false, message: "No such author exists" });
     }
     let token = jwt.sign(
       {
@@ -38,7 +38,7 @@ const userLogin = async function (req, res) {
       .status(201)
       .send({ status: true, message: "Success", data: { token: token } });
   } catch (err) {
-    res.status(500).send({ status: false, data: err.message });
+    res.status(500).send({ status: false, message: err.message });
   }
 };
 

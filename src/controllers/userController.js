@@ -8,25 +8,20 @@ const createUser = async function (req, res) {
         .status(400)
         .send({ status: false, message: "plz enter a valid data" });
     }
-    if (!data.title) {
-        return res
-         .status(400)
-         .send({ status: false, data: "title is required" });
-    }
     if (["Mr", "Mrs", "Miss"].indexOf(data.title) == -1) {
       return res.status(400).send({
         status: false,
-        data: "Enter a valid title Mr or Mrs or Miss ",
+        message: "Enter a valid title Mr or Mrs or Miss ",
       });
     }
     if (!data.name) {
       return res
          .status(400)
-         .send({ status: false, data: "Name is required" });
+         .send({ status: false, message: "Name is required" });
     }
     //console.log(data.name)
     if (!/^([a-zA-Z]+)$/.test(data.name)) {
-        return res.status(400).send({ status: false, message: "special characters are not allowed in name" });
+        return res.status(400).send({ status: false, message: "plz enter name" });
       }
       if (!data.email) {
         return res
@@ -45,20 +40,28 @@ const createUser = async function (req, res) {
       }
       let checkphone = await userModel.find({phone:data.phone});
       if (checkphone.length !=0){
-          return res.status(409).send({status:false, message:"phone no already exsit"})
+          return res.status(409).send({status:false,message:"phone no. already exsit"})
       }
-    
-    
+    if (!data.email) {
+      return res
+        .status(400)
+        .send({ status: false, message: "EmailId is required" });
+    }
+    if (!/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(data.email)) {
+      return res
+        .status(400)
+        .send({ status: false, message: "plz enter a valid Email" });
+    }
     let checkIfemailExist = await userModel.find({ email: data.email });
     if (checkIfemailExist.length != 0) {
       return res
         .status(409)
-        .send({ status: false, data: "email already exist" });
+        .send({ status: false, message: "email already exist" });
      }
     if (!data.password) {
       return res
         .status(400)
-        .send({ status: false, data: "password is required" });
+        .send({ status: false, message: "password is required" });
     }
     if(!/^([a-zA-Z0-9!@#$%^&*_\-+=><]{8,16})$/.test(data.password.trim())){
         return res.status(400).send({status: false, message: "Plz enter valid Password"})
