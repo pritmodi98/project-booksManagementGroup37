@@ -38,7 +38,7 @@ const userLogin = async function (req, res) {
       .status(201)
       .send({ status: true, message: "Success", data: { token: token } });
   } catch (err) {
-    res.status(500).send({ status: false, data: err.message });
+    res.status(500).send({ status: false, message: err.message });
   }
 };
 
