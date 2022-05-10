@@ -80,10 +80,10 @@ const createUser = async function (req, res) {
         return res.status(400).send({ status: false, massege: "plz enter valid pincode" });
       }
      let saved = await userModel.create(data);
-    res.status(201).send({ status: true, data: saved });
+    res.status(201).send({ status: true,massege:'Success', data: saved });
   } catch (err) {
     console.log("This is the err", err.message);
-    res.status(500).send({ status: false, data: err.message });
+    res.status(500).send({ status: false, massege: err.message });
   }
 };
 
