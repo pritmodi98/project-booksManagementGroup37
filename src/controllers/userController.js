@@ -79,11 +79,11 @@ const createUser = async function (req, res) {
     if (!/^([0-9]{6})$/.test(address.pincode)) {
         return res.status(400).send({ status: false, message: "plz enter valid pincode" });
       }
-    let saved = await userModel.create(data);
-    res.status(201).send({ status: true, data: saved });
+     let saved = await userModel.create(data);
+    res.status(201).send({ status: true,message:'Success', data: saved });
   } catch (err) {
     console.log("This is the err", err.message);
-    res.status(500).send({ status: false, data: err.message });
+    res.status(500).send({ status: false, message: err.message });
   }
 };
 
