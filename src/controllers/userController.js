@@ -33,7 +33,7 @@ const createUser = async function (req, res) {
       ) {
         return res
           .status(400)
-          .send({ status: false, message: "Phone No is required" });
+          .send({ status: false, message: "Plz enter valid phone no." });
       }
       let checkphone = await userModel.find({phone:data.phone});
       if (checkphone.length !=0){
