@@ -5,7 +5,7 @@ const ObjectId= mongoose.Types.ObjectId
 
 const createBook = async function (req, res) {
   try {
-    let requestBody = req.body;
+    const requestBody = req.body;
 
     //if anything is passed in body part by client
     if (!validator.isValidRequestBody(requestBody)) {
@@ -70,7 +70,6 @@ const createBook = async function (req, res) {
     }
 
     // validation on ISBN
-    
     if (!/^([0-9]{3}-[0-9]{10})$/.test(ISBN)) {
       res.status(400).send({ status: false, message: "Enter a legit ISBN number" });
       return;
@@ -97,45 +96,23 @@ const createBook = async function (req, res) {
       return res.status(400).send({ status: false, message: 'ISBN no. already exist' }) 
     }
 
+    //to convert a string to array for the subcategory
+    if (subCategory) {
+      if (Array.isArray(subCategory)) {
+        requestBody["subCategory"] = [...subCategory];
+      }
+      if (Object.prototype.toString.call(subCategory) === "[object String]") {
+        requestBody["subCategory"] = [subCategory];
+      }
+    }
     //so that isDeleted is allways set to false at beginning and deletedAt set to null
     if (isDeleted) {
       isDeleted = false;
     }
     deletedAt = null;
-
-    //new object after running all the validations
-    let validatedBookData = {
-      title,
-      excerpt,
-      userId,
-      ISBN,
-      category,
-      reviews,
-      releasedAt,
-      isDeleted,
-      deletedAt,
-    };
-
-    //to convert a string to array for the subcategory
-    if (subCategory) {
-      if (Array.isArray(subCategory)) {
-        validatedBookData["subCategory"] = [...subCategory];
-      }
-      if (Object.prototype.toString.call(subCategory) === "[object String]") {
-        validatedBookData["subCategory"] = [subCategory];
-      }
-    }
-
-    let bookDoc = await bookModel.create(validatedBookData);
-    res
-      .status(201)
-      .send({
-        status: true,
-        message: "New book created successfully",
-        data: bookDoc,
-      });
+    const bookDoc = await bookModel.create(requestBody);
+    res.status(201).send({status: true,message: "New book created successfully",data: bookDoc});
   } catch (err) {
-    // console.log("This is the error 1", err.message)
     res.status(500).send({ status: false, data: err.message });
   }
 };

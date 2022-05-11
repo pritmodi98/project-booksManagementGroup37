@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 const userModel = require("../models/userModel")
-=======
-const userModel = require("../models/userModel");
->>>>>>> 471fe218ef171da09fb1bcd3b9193e25932def37
 
 const createUser = async function (req, res) {
   try {
@@ -23,37 +19,11 @@ const createUser = async function (req, res) {
         .status(400)
         .send({ status: false, message: "Name is required" });
     }
-<<<<<<< HEAD
-    //console.log(data.name)
-    if (!/^([a-zA-Z]+)$/.test(data.name)) {
-        return res.status(400).send({ status: false, message: "plz enter name" });
-      }
-      if (!data.email) {
-        return res
-          .status(400)
-          .send({ status: false, data: "EmailId is required" });
-      }
-     if (!data.phone) {
-        return res
-          .status(400)
-          .send({ status: false, message: "phone No. is required" });
-      }
-      if (!/^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$/.test(data.phone)) {
-        return res
-          .status(400)
-          .send({ status: false, message: "enter 10 digit phone number" });
-      }
-      let checkphone = await userModel.find({phone:data.phone});
-      if (checkphone.length !=0){
-          return res.status(409).send({status:false,message:"phone no. already exsit"})
-      }
-=======
     if (!data.phone) {
       return res
         .status(400)
         .send({ status: false, message: "phone No. is required" });
     }
->>>>>>> 471fe218ef171da09fb1bcd3b9193e25932def37
     if (!data.email) {
       return res
         .status(400)
