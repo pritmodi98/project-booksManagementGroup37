@@ -79,17 +79,27 @@ const updateReview=async function (req,res) {
        if (checkReviewId.isDeleted===true) {
          return res.status(400).send({ status: false, message: "review is already deleted" })       
        }
-       if (validator.isValid(review)) {
-         await reviewModel.findOneAndUpdate({_id:reviewId},{$set:{review:review}})       
+       if (checkReviewId.bookId===bookId){
+          if (validator.isValid(review)) {
+            await reviewModel.findOneAndUpdate({_id:reviewId},{$set:{review:review}})       
+          }
+          if (rating>1 && rating<5) {
+            return res.status(400).send({ status: false, message: "rating must be minimun 1 and maximum 5" })        
+          }
+          if (validator.isValid(rating)) {
+            await reviewModel.findOneAndUpdate({_id:reviewId},{$set:{rating:rating}})       
+          }
+          if (validator.isValid(reviewedBy)) {
+            await reviewModel.findOneAndUpdate({_id:reviewId},{$set:{reviewedBy:reviewedBy}})       
+          }
+          const updatedData=await reviewModel.findById({_id:reviewId})
+          return res.status(200).send({ status: true, message:"review updated successfully",data:updatedData})     
        }
-       if (rating>1 && rating<5) {
-         return res.status(400).send({ status: false, message: "rating must be minimun 1 and maximum 5" })        
+       else{
+          return res.status(400).send({status:false,message:'kindly enter appropriate bookId for particular review you want to update'})
        }
-       if (validator.isValid(reviewedBy)) {
-         await reviewModel.findOneAndUpdate({_id:reviewId},{$set:{reviewedBy:reviewedBy}})       
-       }
-       const updatedData=await reviewModel.findById({_id:reviewId})
-       return res.status(200).send({ status: true, message:"review updated successfully",data:updatedData})       
+       
+         
     } catch (error) {
        return res.status(500).send({ status: false, message: error.message })
     }
@@ -129,11 +139,9 @@ const deleteReview=async function (req,res) {
             return res.status(200).send({ status: true, message: "Review deleted successfully & review count decreased", data: deletedReview,data2:updatedCount })
           }
       }
-     
-      await bookModel
-      await reviewModel.findOneAndUpdate({_id:reviewId},{isDeleted:true},{new:true})
-      return res.status(400).send({ status: false, message: "review is already deleted" })       
-
+      else{
+        return res.status(400).send({status:false,message:'kindly enter appropriate bookId for particular review you want to update'})
+      }
   } catch (error) {
        return res.status(500).send({ status: false, message: error.message })
   }
