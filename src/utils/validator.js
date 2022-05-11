@@ -1,7 +1,17 @@
-// const isValid = function (value) {
-//     if (typeof value === "undefined" || value === null) return false;
-//     if (typeof value === "string" && value.trim().length === 0) return false;
-//     return true;
-//   };
+// const objectId=mongoose.Types.ObjectId
 
-//   module.exports={isValid}
+const isValid = function (value) {
+    if (typeof value === "undefined" || value === null) return false;
+    if (typeof value === "string" && value.trim().length === 0) return false;
+    return true;
+  };
+
+const isValidRequestBody = function(requestBody){
+    return Object.keys(requestBody).length > 0
+  }
+
+const validateObjectId= function (objectId) {
+    return mongoose.Types.ObjectId.isValid(objectId)
+}
+
+  module.exports={isValid,isValidRequestBody,validateObjectId}
