@@ -4,6 +4,10 @@ const bookModel = require('../models/bookModel');
 const reviewModel = require('../models/reviewModel');
 const objectId=mongoose.Types.ObjectId
 
+// const validateObjectId= function (objectId) {
+//   return mongoose.Types.ObjectId.isValid(objectId)
+// }
+
 const createReview=async function (req,res) {
     try {
       const data =req.body
@@ -35,7 +39,7 @@ const createReview=async function (req,res) {
         return res.status(400).send({status:false,message:'rating is required'})  
       }
       if (rating<1 || rating>5) {
-        return res.status(400).send({status:false,message:'rating msust be minimum 1 and maximum 5'})  
+        return res.status(400).send({status:false,message:'rating must be minimum 1 and maximum 5'})  
       }
       data['bookId']=checkBookId._id
       data['reviewedAt']=new Date.now()
