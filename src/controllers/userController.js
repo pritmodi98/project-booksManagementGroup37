@@ -1,9 +1,9 @@
-const userModel = require("../models/userModel")
+const userModel = require("../Models/userModel");
 
 const createUser = async function (req, res) {
   try {
     let data = req.body;
-    if (Object.keys(data).length===0 || typeof data==='undefined' || typeof data==='null') {
+    if (!data) {
       return res
         .status(400)
         .send({ status: false, message: "plz enter a valid data" });
@@ -47,8 +47,10 @@ const createUser = async function (req, res) {
     }
     //console.log(data.name)
     //regex Syntex
-    if (!/^([a-zA-Z]+)$/.test(data.name)) {
-      return res.status(400).send({ status: false, message: "plz enter valid name" });
+    if (!/^([a-zA-Z ]+)$/.test(data.name)) {
+      return res
+        .status(400)
+        .send({ status: false, message: "plz enter valid name" });
     }
     if (!/^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$/.test(data.phone)) {
       return res
@@ -60,7 +62,7 @@ const createUser = async function (req, res) {
         .status(400)
         .send({ status: false, message: "plz enter a valid Email" });
     }
-    if (!/^([a-zA-Z0-9!@#$%^&*_\-+=><]{8,16})$/.test(data.password.trim())) {
+    if (!/^([a-zA-Z0-9!@#$%^&*_\-+=><]{8,15})$/.test(data.password.trim())) {
       return res
         .status(400)
         .send({ status: false, message: "Plz enter valid Password" });
@@ -93,7 +95,7 @@ const createUser = async function (req, res) {
         .status(404)
         .send({ status: false, message: "EmailID already exist" });
     }
-
+    
     let saved = await userModel.create(data);
     res.status(201).send({ status: true, message: "Success", data: saved });
   } catch (err) {

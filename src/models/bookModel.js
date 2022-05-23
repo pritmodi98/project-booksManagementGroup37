@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const bookSchema = new mongoose.Schema( {
+    bookCover:{
+        type:String,
+
+    },
     title: {
         type:String,
         unique:true,
@@ -30,25 +34,24 @@ const bookSchema = new mongoose.Schema( {
         required:true,
         trim:true
     },
-    subCategory:{
+    subcategory:{
         type:[String],
         required:true,
         trim:true
     },
-    reviews:{
+    review:{
         type:Number,
         default:0,
     },
     deletedAt: {
-        type: Date,
+        type: Date
       },
     isDeleted:{
         type:Boolean,
         default:false
     },
     releasedAt: {
-        type: Date,
-        required:true,
+        type: Date
       },
 },{timestamps:true});
 

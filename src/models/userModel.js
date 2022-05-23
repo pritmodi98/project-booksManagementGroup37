@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       trim: true,
-      lowercase: true,
       unique: true,
       required: true, 
     },
@@ -36,10 +35,6 @@ const userSchema = new mongoose.Schema(
         street: { type: String },
         city: { type: String },
         pincode: { type: String }
-    },
-    isDeleted: {
-      type: Boolean,
-      default: false,
     },
   },{ timestamps: true }
 );

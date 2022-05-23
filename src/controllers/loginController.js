@@ -1,4 +1,4 @@
-const userModel = require("../models/userModel");
+const userModel = require("../Models/userModel");
 const jwt = require("jsonwebtoken");
 
 const userLogin = async function (req, res) {
@@ -28,12 +28,12 @@ const userLogin = async function (req, res) {
     }
     let token = jwt.sign(
       {
-        UserId: isUser._id.toString(),
+        userId: isUser._id.toString(),
       },
-      "project-3/group-37" , {expiresIn:'500s'}
+      "project-3/group-37" , {expiresIn:'3600s'}
     );
-
-    // res.setHeader("x-api-key",token)
+    
+       res.setHeader("x-api-key",token)
     res
       .status(201)
       .send({ status: true, message: "Success", data: { token: token } });

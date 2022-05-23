@@ -1,18 +1,27 @@
 const express = require('express');
 const router = express.Router();
+// const aws=require('aws-sdk')
 const userController = require("../controllers/userController")
-const bookController = require("../controllers/bookController")
 const userLogin = require("../controllers/loginController")
+const bookController = require("../controllers/bookController");
 const reviewController = require("../controllers/reviewController")
+const auth = require("../Middleware/auth")
 
 
+//signUp and login api
 router.post("/register",userController.createUser)
 router.post("/login",userLogin.userLogin)
-router.post("/books",bookController.createBook)
-router.get("/books",bookController.getBook)
+//book api
+router.post("/books",bookController.createBooks)
+router.get("/getData",auth.authenti,bookController.getBook)
+router.get("/books/:bookId",auth.authenti,bookController.bookDetail)
+router.put("/books/:bookId",auth.authenti,auth.authoriz,bookController.updateBook)
+router.delete("/books/:bookId",auth.authenti,auth.authoriz,bookController.deleteBook)
+
+//review
 router.post("/books/:bookId/review",reviewController.createReview)
-router.put("/books/:bookId/review/:reviewId",reviewController.updateReview)
-router.delete("/books/:bookId/review/:reviewId",reviewController.deleteReview)
+router.put("/books/:bookId/reviews/:reviewId",reviewController.updateReview)
+router.delete("/books/:bookId/reviews/:reviewId",reviewController.deleteReview)
 
 module.exports=router;
 

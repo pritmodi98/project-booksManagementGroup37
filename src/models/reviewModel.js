@@ -7,7 +7,7 @@ const reviewSchema = new mongoose.Schema( {
         ref:"Book",
         required:true
     },
-    reviewedBy:{
+    reviewedby:{
         type:String,
         required:true,
         default:'Guest' 
